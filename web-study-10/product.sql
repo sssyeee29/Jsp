@@ -7,7 +7,7 @@ create table product(
 
 );
 
-create sequence product_seq start with 1 incerment by 1;
+create sequence product_seq start with 1 increment by 1;
 
 insert into product values(product_seq.nextval, '개념을 콕콕 잡아주는 데이터베이스', 27000, 'db.jpg', '데이터베이스에 관한 모든 것을 쉽고 재미있게 정리한 교재...');
 insert into product values(product_seq.nextval, '웹표준을 위한 HTML5', 25000, 'html5.jpg', 'HTML5 가이드북. 홈페이지 제작을 위한 필수 선택 HTML 기본 문법...');

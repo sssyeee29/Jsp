@@ -16,9 +16,9 @@ public class DBManager {
 		String pass = null;
 		
 		try { // try catch 구문은 에러를 안전하게 처리하기 위한 구문 
-			url = "jdbc:oracle:thin:@localhost:49161:xe";
-			uid = "system";
-			pass = "oracle";
+			url = "jdbc:oracle:thin:@localhost:1521:xe";
+			uid = "hr";
+			pass = "hr";
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			return DriverManager.getConnection(url, uid, pass);
 		}catch(Exception e) {

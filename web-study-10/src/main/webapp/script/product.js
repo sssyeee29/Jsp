@@ -16,3 +16,13 @@ function productCheck() {
    }
    return true;
 }
+
+function chkDelete() {
+	alert("삭제창");
+	
+	if (confirm("정말 삭제하시겠습니까?")) {
+        return true;  // 확인 -> 삭제 진행
+    } else {
+        return false; // 취소 -> 삭제 중단
+    }
+}
