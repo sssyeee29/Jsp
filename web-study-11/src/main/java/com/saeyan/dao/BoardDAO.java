@@ -37,7 +37,7 @@ public class BoardDAO {
 			conn = DBManager.getConnection();
 			//2. sql전송
 			pstmt = conn.prepareStatement(sql);
-			//3. sql 캡핑
+			//3. sql 맵핑
 			//4. sql 실행
 			rs = pstmt.executeQuery();
 			
@@ -82,14 +82,14 @@ public class BoardDAO {
 			conn = DBManager.getConnection();
 			//2. sql전송
 			pstmt = conn.prepareStatement(sql);
-			//3. sql 캡핑
+			//3. sql 맵핑
 			pstmt.setString(1, bVo.getName());
 			pstmt.setString(2, bVo.getPass());
 			pstmt.setString(3, bVo.getEmail());
 			pstmt.setString(4, bVo.getTitle());
 			pstmt.setString(5, bVo.getContent());
 			//4. sql 실행
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -97,12 +97,134 @@ public class BoardDAO {
 			DBManager.close(conn, pstmt);
 		}
 	}//end insertBoard
+
+	 //단 건 데이터 가져오기
+	public BoardVO selectOneBoardByNum(int num) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null;
+		
+		String sql = "select * from board where num = ?";
+		
+		BoardVO bVo = new BoardVO();
+		
+		try {
+			//1. DB연결 
+			conn = DBManager.getConnection();
+			//2. sql전송
+			pstmt = conn.prepareStatement(sql);
+			//3. sql 맵핑
+			pstmt.setInt(1, num);
+			//4. sql 실행
+			rs = pstmt.executeQuery(); //query는 select일때만 
+			
+			if(rs.next()) { //가져올 데이터 있니 ?
+				bVo.setNum(rs.getInt("num"));
+				bVo.setName(rs.getString("name"));
+				bVo.setPass(rs.getString("pass"));
+				bVo.setEmail(rs.getString("email"));
+				bVo.setTitle(rs.getString("title"));
+				bVo.setContent(rs.getString("content"));
+				bVo.setReadCount(rs.getInt("readcount"));
+				bVo.setWriteDate(rs.getTimestamp("writedate"));	
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bVo;
+		
+	}//end selectOneBoardByNum
+
+	//조회수 증가
+	public void updateReadCount(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		
+		String sql = "update board set readcount = readcount+1 where num = ?";
+		
+		try {
+			//1. DB연결 
+			conn = DBManager.getConnection();
+			//2. sql전송
+			pstmt = conn.prepareStatement(sql);
+			//3. sql 맵핑
+			pstmt.setInt(1, num);
+			//4. sql 실행
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}
+	} //updateReadCount
+
+	 //데이터 삭제하기
+	public void deleteBoard(int num) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		
+		String sql = "delete from board where num = ?"; //from은 생략해도됨
+		
+		try {
+			//1. DB연결 
+			conn = DBManager.getConnection();
+			//2. sql전송
+			pstmt = conn.prepareStatement(sql);
+			//3. sql 맵핑
+			pstmt.setInt(1, num);
+			//4. sql 실행
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+	} // end deleteBoard
+
+	
+	  //데이터 수정하기
+	public void updateBoard(BoardVO bVo) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		
+		String sql = "update board set name=?, pass=?, email=?, title=?, content=? where num = ? "; 
+		
+		try {
+			//1. DB연결 
+			conn = DBManager.getConnection();
+			//2. sql전송
+			pstmt = conn.prepareStatement(sql);
+			//3. sql 맵핑
+			pstmt.setString(1, bVo.getName());
+			pstmt.setString(2, bVo.getPass());
+			pstmt.setString(3, bVo.getEmail());
+			pstmt.setString(4, bVo.getTitle());
+			pstmt.setString(5, bVo.getContent());
+			pstmt.setInt(6, bVo.getNum());
+			//4. sql 실행
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+	}// end updateBoard
 	   
 	   
-	   //단 건 데이터 가져오기
-	   //데이터 수정하기
-	   //데이터 추가하기
-	   //데이터 삭제하기
+	 
+	  
+	   
 	   
 	   
 	}

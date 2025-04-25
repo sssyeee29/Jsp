@@ -26,7 +26,7 @@ public class BoardServlet extends HttpServlet {
 		System.out.println("BoardServlet에서 요청을 받음을 확인: " + command);
 		
 		ActionFactory af = ActionFactory.getInstance();
-		Action action = af.getAction(command); //list,write든 상관없이 일단 얘가 받아줘서 ActionFactory로 전달 
+		Action action = af.getAction(command); //ActionFactioy에서 해당 if절꺼를 받는거 //list,write든 상관없이 일단 얘가 받아줘서 ActionFactory로 전달 
 		
 		//Handler Mapping
 		if(action != null) {
